@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Responsive Form</title>
+  <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+
+<form id="myForm">
+  <!-- The form fields will be dynamically added using JavaScript -->
+</form>
+<script src="form.js"></script>
+<script>
+  const myForm = new MyForm('myForm');
+  myForm.addInputField('text', 'name', 'Your Name');
+  myForm.addInputField('email', 'email', 'Your Email');
+  // Add more fields as required
+
+  // Optionally, add a submit button and handle its click event
+  const submitButton = document.createElement('button');
+  submitButton.innerText = 'Submit';
+  myForm.form.appendChild(submitButton);
+  submitButton.addEventListener('click', function(event) {
+    event.preventDefault(); // Prevent form from submitting the traditional way
+    myForm.submitForm();
+  });
+</script>
+</body>
+</html>
