@@ -1,5 +1,5 @@
 # Chaudhary_Harsh_oopJS
-## Simon is a classic electronic memory game that challenges players to repeat increasingly longer sequences of lights and sounds. The game consists of a console with four colored buttons (usually red, blue, green, and yellow) and a series of gameplay modes. Here are the basic rules of Simon:
+###  Simon is a classic electronic memory game that challenges players to repeat increasingly longer sequences of lights and sounds. The game consists of a console with four colored buttons (usually red, blue, green, and yellow) and a series of gameplay modes. Here are the basic rules of Simon:
 
 ### Objective: The objective of Simon is to replicate the increasingly longer sequences of lights and sounds that the game produces.
 
