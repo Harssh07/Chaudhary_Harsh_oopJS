@@ -1,33 +1,80 @@
-class MyForm {
-    constructor(formId) {
-      this.form = document.getElementById(formId);
-      // Initialize your form elements here, for example:
-      this.inputFields = []; // You could dynamically add input fields as needed
+// grab all elements 
+const form = document.querySelector("[data-form]");
+const lists = document.querySelector("[data-lists]");
+const input = document.querySelector("[data-input]");
+
+//local Storage
+class Storage {
+    static addTodStorage(todoArr){
+        let storage = localStorage.setItem("todo", JSON.stringify(todoArr));
+        return storage;
     }
-  
-    addInputField(type, id, placeholder) {
-      const inputField = document.createElement('input');
-      inputField.type = type;
-      inputField.id = id;
-      inputField.placeholder = placeholder;
-      this.form.appendChild(inputField);
-      this.inputFields.push(inputField);
+
+    static getStorage(){
+        let storage = localStorage.getItem("todo") === null ? 
+        [] : JSON.parse(localStorage.getItem("todo"));
+        return storage
     }
-  
-    // Add methods for form validation
-    validateForm() {
-      // Implement validation logic
-      // Return true if form is valid, otherwise false
+}
+
+
+let todoArr = Storage.getStorage();
+
+// form part 
+form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    let id = Math.random() * 1000000;
+    const todo = new Todo(id, input.value);
+    todoArr = [...todoArr, todo];
+    UI.displayData();
+    UI.clearInput();
+    
+    Storage.addTodStorage(todoArr);
+});
+
+
+class Todo {
+    constructor(id, todo){
+        this.id = id;
+        this.todo = todo;
     }
-  
-    // Method to handle form submission
-    submitForm() {
-      if(this.validateForm()) {
-        // Handle form submission, e.g., using Fetch API
-        console.log('Form submitted successfully');
-      } else {
-        console.log('Form validation failed');
-      }
+}
+
+// display the todo in the DOM;
+class UI{
+    static displayData(){
+        let displayData = todoArr.map((item) => {
+            return `
+                <div class="todo">
+                <p>${item.todo}</p>
+                <span class="remove" data-id = ${item.id}>🗑️</span>
+                </div>
+            `
+        });
+        lists.innerHTML = (displayData).join(" ");
     }
-  }
-  
+    static clearInput(){
+        input.value = "";
+    }
+    static removeTodo(){
+        lists.addEventListener("click", (e) => {
+            if(e.target.classList.contains("remove")){
+                e.target.parentElement.remove();
+            }
+            let btnId = e.target.dataset.id;
+          
+            UI.removeArrayTodo(btnId);
+        });
+    }
+    static removeArrayTodo(id){
+        todoArr = todoArr.filter((item) => item.id !== +id);
+        Storage.addTodStorage(todoArr);
+    }
+}
+
+//once the browser is loaded
+window.addEventListener("DOMContentLoaded", () => {
+    UI.displayData();
+    
+    UI.removeTodo();
+});
